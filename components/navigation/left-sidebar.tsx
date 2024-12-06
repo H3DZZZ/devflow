@@ -6,7 +6,7 @@ import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 
-import NavLinks from "./nav-links";
+import NavLinks from "./navbar/nav-links";
 
 const LeftSidebar = async () => {
   const session = await auth();
@@ -47,16 +47,16 @@ const LeftSidebar = async () => {
                 asChild
                 className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none"
               >
-                <Image
-                  src={"/icons/sign-up.svg"}
-                  alt={"sign-up"}
-                  width={20}
-                  height={20}
-                  className="invert-colors lg:hidden"
-                />
                 <Link href={ROUTES.SIGN_IN}>
+                  <Image
+                    src={"/icons/account.svg"}
+                    alt={"Account"}
+                    width={20}
+                    height={20}
+                    className="invert-colors lg:hidden"
+                  />
                   <span className="primary-text-gradient max-lg:hidden">
-                    Sign Up
+                    Log In
                   </span>
                 </Link>
               </Button>

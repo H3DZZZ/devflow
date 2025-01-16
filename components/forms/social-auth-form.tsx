@@ -6,6 +6,8 @@ import React from "react";
 
 import ROUTES from "@/constants/routes";
 import { toast } from "@/hooks/use-toast";
+import { handleError } from "@/lib/handlers/error";
+import { ErrorResponse } from "@/types/global";
 
 import { Button } from "../ui/button";
 
@@ -20,7 +22,6 @@ const SocialAuthForm = () => {
         redirect: false,
       });
     } catch (error) {
-      console.log(error);
       toast({
         title: "Sign-in Failed",
         description:
@@ -29,6 +30,7 @@ const SocialAuthForm = () => {
             : "An error occurred during sign-in",
         variant: "destructive",
       });
+      return handleError(error) as ErrorResponse;
     }
   };
 

@@ -50,7 +50,7 @@ export const SignUpSchema = z.object({
     }),
 });
 
-export const askQuestionSchema = z.object({
+export const AskQuestionSchema = z.object({
   title: z
     .string()
     .min(1, { message: "Title is required." })
@@ -110,7 +110,7 @@ export const AccountSchema = z.object({
     .min(1, { message: "Provider Account ID is required." }),
 });
 
-export const signinWithOAuthSchema = z.object({
+export const SigninWithOAuthSchema = z.object({
   provider: z.enum(["google", "github"]),
   providerAccountId: z
     .string()
@@ -127,4 +127,12 @@ export const signinWithOAuthSchema = z.object({
       .email({ message: "Please provide a valid email address " }),
     image: z.string().url("Invalid image URL").optional(),
   }),
+});
+
+export const EditQuestionSchema = AskQuestionSchema.extend({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
+});
+
+export const GetQuestionSchema = z.object({
+  questionId: z.string().min(1, { message: "Question ID is required." }),
 });

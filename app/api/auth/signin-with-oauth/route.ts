@@ -7,7 +7,7 @@ import User from "@/database/user.model";
 import { handleError } from "@/lib/handlers/error";
 import { ValidationError } from "@/lib/http-errors";
 import { dbConnect } from "@/lib/mongoose";
-import { signinWithOAuthSchema } from "@/lib/validations";
+import { SigninWithOAuthSchema } from "@/lib/validations";
 import { APIErrorResponse } from "@/types/global";
 
 export async function POST(request: Request) {
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   session.startTransaction();
 
   try {
-    const validatedData = signinWithOAuthSchema.safeParse({
+    const validatedData = SigninWithOAuthSchema.safeParse({
       provider,
       providerAccountId,
       user,

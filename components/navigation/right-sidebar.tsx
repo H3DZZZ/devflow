@@ -7,11 +7,14 @@ import ROUTES from "@/constants/routes";
 import TagCard from "../cards/tag-card";
 
 const hotQuestions = [
-  { _id: "1", title: "How to craete a custom hook in react" },
-  { _id: "2", title: "How to craete a custom hook in react" },
-  { _id: "3", title: "How to craete a custom hook in react" },
-  { _id: "4", title: "How to craete a custom hook in react and nextjs" },
-  { _id: "5", title: "How to craete a custom hook in react" },
+  { _id: "1", title: "How to create a custom hook in react" },
+  {
+    _id: "2",
+    title: "How do I return the response from an asynchronous call?",
+  },
+  { _id: "3", title: "Centering a div in tailwind css" },
+  { _id: "4", title: "Difference between debounce and throttled" },
+  { _id: "5", title: "Server and client side in nextjs" },
 ];
 
 const popularTags = [

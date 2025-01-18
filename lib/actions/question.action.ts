@@ -6,6 +6,11 @@ import Question, { IQuestionDoc } from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";
 import Tag, { ITagDoc } from "@/database/tags.model";
 import {
+  CreateQuestionParams,
+  EditQuestionParams,
+  GetQuestionParams,
+} from "@/types/action";
+import {
   ActionResponse,
   ErrorResponse,
   PaginatedSearchParams,

@@ -13,7 +13,8 @@ export const getDeviconClassName = (techName: string) => {
   return `${techMap[normalizedTechName]} colored` || "devicon-devicon-plain";
 };
 
-export const getTimeStamp = (date: Date): string => {
+export const getTimeStamp = (createdAt: Date): string => {
+  const date = new Date(createdAt);
   const units: [string, number][] = [
     ["year", 31536000],
     ["month", 2592000],

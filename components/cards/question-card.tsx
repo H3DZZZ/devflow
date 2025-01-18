@@ -3,12 +3,13 @@ import React from "react";
 
 import ROUTES from "@/constants/routes";
 import { getTimeStamp } from "@/lib/utils";
+import { Questions, Tag } from "@/types/global";
 
 import TagCard from "./tag-card";
 import Metrics from "../metrics";
 
 interface Props {
-  question: Question;
+  question: Questions;
 }
 
 const QuestionCard = ({
@@ -37,7 +38,7 @@ const QuestionCard = ({
 
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metrics
-          imgUrl={author.image}
+          imgUrl={author?.image}
           alt={author.name}
           value={author.name}
           title={`• asked ${getTimeStamp(createdAt)}`}

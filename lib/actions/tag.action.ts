@@ -133,6 +133,9 @@ export const getTagQuestions = async (
 
     const isNext = totalQuestions > skip + questions.length;
 
+    // !TO FIX: Questions is returning 1 array of instead of the same amount of totalQuestion
+    console.log({ questions, totalQuestions, filterQuery });
+
     return {
       success: true,
       data: {

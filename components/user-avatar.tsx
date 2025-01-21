@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
+import { cn } from "@/lib/utils";
 
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
@@ -11,6 +12,7 @@ interface AvatarProps {
   name: string;
   imageUrl?: string | null;
   className?: string;
+  fallbackClassName?: string;
 }
 
 const UserAvatar = ({
@@ -18,6 +20,7 @@ const UserAvatar = ({
   name,
   imageUrl,
   className = "size-9",
+  fallbackClassName,
 }: AvatarProps) => {
   const initials = name
     .split(" ")
@@ -38,7 +41,12 @@ const UserAvatar = ({
             quality={100}
           />
         ) : (
-          <AvatarFallback className="primary-gradient font-space-grotesk font-bold tracking-wider text-white">
+          <AvatarFallback
+            className={cn(
+              "primary-gradient font-space-grotesk font-bold tracking-wider text-white",
+              fallbackClassName
+            )}
+          >
             {initials}
           </AvatarFallback>
         )}

@@ -5,6 +5,7 @@ import React from "react";
 
 import TagCard from "@/components/cards/tag-card";
 import Preview from "@/components/editor/preview";
+import AnswerForm from "@/components/forms/answer-form";
 import Metrics from "@/components/metrics";
 import UserAvatar from "@/components/user-avatar";
 import ROUTES from "@/constants/routes";
@@ -89,6 +90,10 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           />
         ))}
       </div>
+
+      <section className="my-5">
+        <AnswerForm questionId={question._id} />
+      </section>
     </>
   );
 };

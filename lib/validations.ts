@@ -177,3 +177,15 @@ export const AIAnswerSchema = z.object({
     .min(100, { message: "Answer has to be more than 100 characters." }),
   userAnswer: z.string().optional(),
 });
+
+export const createVoteSchema = z.object({
+  targetId: z.string().min(1, { message: "Target ID is required." }),
+  targetType: z.enum(["question", "answer"], {
+    message: "Invalid target type",
+  }),
+  voteType: z.enum(["upvote", "downvote"], { message: "Invalid vote type" }),
+});
+
+export const updateVoteCountSchema = createVoteSchema.extend({
+  change: z.number().int().min(-1).max(1),
+});

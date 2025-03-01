@@ -60,4 +60,6 @@ interface AnswerParams {
   author: Author;
   content: string;
   createdAt: Date;
+  upvotes: number;
+  downvotes: number;
 }

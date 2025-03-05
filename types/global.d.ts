@@ -63,3 +63,9 @@ interface AnswerParams {
   upvotes: number;
   downvotes: number;
 }
+
+interface CollectionParams {
+  _id: string;
+  author: string | Author;
+  question: Questions;
+}

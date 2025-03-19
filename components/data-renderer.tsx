@@ -102,7 +102,7 @@ const DataRenderer = <T,>({
     );
   }
 
-  if (!data || data.length === 0)
+  if (!data || data.length === 0) {
     return (
       <StateSkeleton
         image={{
@@ -115,6 +115,8 @@ const DataRenderer = <T,>({
         button={empty.button}
       />
     );
+  }
+
   return <div>{render(data)}</div>;
 };
 

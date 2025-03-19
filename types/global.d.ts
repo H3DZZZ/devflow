@@ -69,3 +69,14 @@ interface CollectionParams {
   author: string | Author;
   question: Questions;
 }
+
+interface UserParams {
+  _id: string;
+  name: string;
+  username: string;
+  email: string;
+  bio?: string;
+  image?: string;
+  location?: string;
+  reputation?: number;
+}

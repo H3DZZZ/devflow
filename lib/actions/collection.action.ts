@@ -158,7 +158,7 @@ export async function getSavedQuestion(
       break;
   }
   try {
-    const totalQuestions = await Question.countDocuments(filterQuery);
+    const totalQuestions = await Collection.countDocuments(filterQuery);
 
     const questions = await Collection.find(filterQuery)
       .populate({

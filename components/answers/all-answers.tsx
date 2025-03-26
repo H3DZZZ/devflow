@@ -7,12 +7,22 @@ import { ActionResponse, AnswerParams } from "@/types/global";
 import AnswerCard from "../cards/answer-card";
 import DataRenderer from "../data-renderer";
 import CommonFilter from "../filters/common-filter";
+import Pagination from "../pagination";
 
 interface Props extends ActionResponse<AnswerParams[]> {
+  page: number;
+  isNext: boolean;
   totalAnswers: number;
 }
 
-const AllAnswers = ({ data, success, error, totalAnswers }: Props) => {
+const AllAnswers = ({
+  page,
+  isNext,
+  data,
+  success,
+  error,
+  totalAnswers,
+}: Props) => {
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">
@@ -35,6 +45,7 @@ const AllAnswers = ({ data, success, error, totalAnswers }: Props) => {
           answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
         }
       />
+      <Pagination page={page} isNext={isNext} />
     </div>
   );
 };

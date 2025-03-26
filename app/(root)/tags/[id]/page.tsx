@@ -7,6 +7,7 @@ import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getTagQuestions } from "@/lib/actions/tag.action";
 import { RouteParams } from "@/types/global";
+import Pagination from "@/components/pagination";
 
 const Page = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
@@ -15,11 +16,11 @@ const Page = async ({ params, searchParams }: RouteParams) => {
   const { success, data, error } = await getTagQuestions({
     tagId: id,
     page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
+    pageSize: Number(pageSize) || 5,
     query,
   });
 
-  const { tag, questions } = data || {};
+  const { tag, questions, isNext } = data || {};
 
   return (
     <>
@@ -49,6 +50,7 @@ const Page = async ({ params, searchParams }: RouteParams) => {
           </div>
         )}
       />
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };

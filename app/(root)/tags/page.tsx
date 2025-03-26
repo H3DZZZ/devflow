@@ -2,7 +2,9 @@ import React from "react";
 
 import TagCard from "@/components/cards/tag-card";
 import DataRenderer from "@/components/data-renderer";
+import CommonFilter from "@/components/filters/common-filter";
 import LocalSearch from "@/components/search/local-search";
+import { TagFilters } from "@/constants/filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_TAGS } from "@/constants/states";
 import { getTags } from "@/lib/actions/tag.action";
@@ -24,7 +26,7 @@ const Tags = async ({ searchParams }: RouteParams) => {
     <>
       <h1 className="h1-bold text-dark100_light900 text-3xl">Tags</h1>
 
-      <section className="mt-11">
+      <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearch
           route={ROUTES.TAGS}
           imgSrc="/icons/search.svg"
@@ -32,20 +34,26 @@ const Tags = async ({ searchParams }: RouteParams) => {
           otherClasses="flex-1"
         />
 
-        <DataRenderer
-          data={tags}
-          empty={EMPTY_TAGS}
-          success={success}
-          error={error}
-          render={(tags) => (
-            <div className="mt-10 flex w-full flex-wrap gap-4">
-              {tags.map((tag) => (
-                <TagCard key={tag._id} {...tag} />
-              ))}
-            </div>
-          )}
+        <CommonFilter
+          filters={TagFilters}
+          otherClasses="sm:min-w-32"
+          containerClasses="max-xs:w-full"
         />
-      </section>
+      </div>
+
+      <DataRenderer
+        data={tags}
+        empty={EMPTY_TAGS}
+        success={success}
+        error={error}
+        render={(tags) => (
+          <div className="mt-10 flex w-full flex-wrap gap-4">
+            {tags.map((tag) => (
+              <TagCard key={tag._id} {...tag} />
+            ))}
+          </div>
+        )}
+      />
     </>
   );
 };

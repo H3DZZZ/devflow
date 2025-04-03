@@ -79,5 +79,7 @@ interface UserParams {
   bio?: string;
   image?: string;
   location?: string;
+  portfolio?: string;
   reputation?: number;
+  createdAt: Date;
 }

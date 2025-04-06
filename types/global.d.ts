@@ -63,6 +63,7 @@ interface AnswerParams {
   createdAt: Date;
   upvotes: number;
   downvotes: number;
+  question: string;
 }
 
 interface CollectionParams {

@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
 
 import { auth } from "@/auth";
+import AnswerCard from "@/components/cards/answer-card";
 import QuestionCard from "@/components/cards/question-card";
 import DataRenderer from "@/components/data-renderer";
 import Pagination from "@/components/pagination";
@@ -12,8 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/user/profile-link";
 import Stats from "@/components/user/stats";
 import UserAvatar from "@/components/user-avatar";
-import { EMPTY_QUESTION } from "@/constants/states";
-import { getUser, getUserQuestions } from "@/lib/actions/user.action";
+import { EMPTY_ANSWERS, EMPTY_QUESTION } from "@/constants/states";
+import {
+  getUser,
+  getUserAnswers,
+  getUserQuestions,
+} from "@/lib/actions/user.action";
 import { RouteParams } from "@/types/global";
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
@@ -43,19 +47,21 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
     pageSize: Number(pageSize) || 5,
   });
 
-  const { questions, isNext: hasMoreQuestions } = userQuestions!;
-
   const {
-    _id,
-    name,
-    image,
-    // reputation,
-    portfolio,
-    location,
-    createdAt,
-    username,
-    bio,
-  } = user;
+    success: userAnswersSuccess,
+    data: userAnswers,
+    error: userAnswersError,
+  } = await getUserAnswers({
+    userId: id,
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+  });
+
+  const { questions, isNext: hasMoreQuestions } = userQuestions!;
+  const { answers, isNext: hasMoreAnswers } = userAnswers!;
+
+  const { _id, name, image, portfolio, location, createdAt, username, bio } =
+    user;
   return (
     <>
       <section className="flex flex-col-reverse items-start justify-between sm:flex-row">
@@ -136,18 +142,37 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
               success={userQuestionsSuccess}
               error={userQuestionsError}
               render={(questions) => (
-                <div className="flex w-full flex-col gap-6 ">
+                <div className="flex w-full flex-col gap-6">
                   {questions.map((question) => (
                     <QuestionCard key={question._id} question={question} />
                   ))}
                 </div>
               )}
             />
-            <Pagination isNext={hasMoreQuestions} page={page} />
+            <Pagination isNext={hasMoreQuestions || false} page={page} />
           </TabsContent>
 
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
-            List of Answers
+            <DataRenderer
+              data={answers}
+              empty={EMPTY_ANSWERS}
+              success={userAnswersSuccess}
+              error={userAnswersError}
+              render={(answers) => (
+                <div className="flex w-full flex-col gap-6">
+                  {answers.map((answer) => (
+                    <AnswerCard
+                      key={answer._id}
+                      {...answer}
+                      content={answer.content.slice(0, 27)}
+                      containerClasses="card-wrapper rounded-[10px] px-7 py-9 sm:px-11"
+                      showReadMore
+                    />
+                  ))}
+                </div>
+              )}
+            />
+            <Pagination isNext={hasMoreAnswers || false} page={page} />
           </TabsContent>
         </Tabs>
 

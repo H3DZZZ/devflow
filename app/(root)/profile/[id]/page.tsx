@@ -5,6 +5,7 @@ import React from "react";
 
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/user/profile-link";
 import Stats from "@/components/user/stats";
 import UserAvatar from "@/components/user-avatar";
@@ -30,7 +31,7 @@ const Profile = async ({ params }: RouteParams) => {
     _id,
     name,
     image,
-    reputation,
+    // reputation,
     portfolio,
     location,
     createdAt,
@@ -99,6 +100,32 @@ const Profile = async ({ params }: RouteParams) => {
           BRONZE: 0,
         }}
       />
+
+      <section className="mt-10 flex gap-10">
+        <Tabs defaultValue="top-posts" className="flex-[2]">
+          <TabsList className="background-light800_dark400 min-h-[42px] p-1">
+            <TabsTrigger value="top-posts" className="tab">
+              Top Posts
+            </TabsTrigger>
+            <TabsTrigger value="answers" className="tab">
+              Answers
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="top-posts" className="mt-5 flex w-full flex-col">
+            List of Question
+          </TabsContent>
+          <TabsContent value="answers" className="flex w-full flex-col gap-6">
+            List of Answers
+          </TabsContent>
+        </Tabs>
+
+        <div className="flex min-h-[250px] w-full flex-1 flex-col max-lg:hidden">
+          <h3 className="h3-bold text-dark200_light900">Top Tech</h3>
+          <div className="mt-7 flex flex-col gap-4">
+            <p>List of Tags</p>
+          </div>
+        </div>
+      </section>
     </>
   );
 };

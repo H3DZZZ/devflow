@@ -4,16 +4,21 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 import { auth } from "@/auth";
+import QuestionCard from "@/components/cards/question-card";
+import DataRenderer from "@/components/data-renderer";
+import Pagination from "@/components/pagination";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/user/profile-link";
 import Stats from "@/components/user/stats";
 import UserAvatar from "@/components/user-avatar";
-import { getUser } from "@/lib/actions/user.action";
+import { EMPTY_QUESTION } from "@/constants/states";
+import { getUser, getUserQuestions } from "@/lib/actions/user.action";
 import { RouteParams } from "@/types/global";
 
-const Profile = async ({ params }: RouteParams) => {
+const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
+  const { page, pageSize } = await searchParams;
 
   if (!id) notFound();
   const loggedInUser = await auth();
@@ -27,6 +32,19 @@ const Profile = async ({ params }: RouteParams) => {
     );
 
   const { user, totalQuestions, totalAnswers } = data!;
+
+  const {
+    success: userQuestionsSuccess,
+    data: userQuestions,
+    error: userQuestionsError,
+  } = await getUserQuestions({
+    userId: id,
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 5,
+  });
+
+  const { questions, isNext: hasMoreQuestions } = userQuestions!;
+
   const {
     _id,
     name,
@@ -112,8 +130,22 @@ const Profile = async ({ params }: RouteParams) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts" className="mt-5 flex w-full flex-col">
-            List of Question
+            <DataRenderer
+              data={questions}
+              empty={EMPTY_QUESTION}
+              success={userQuestionsSuccess}
+              error={userQuestionsError}
+              render={(questions) => (
+                <div className="flex w-full flex-col gap-6 ">
+                  {questions.map((question) => (
+                    <QuestionCard key={question._id} question={question} />
+                  ))}
+                </div>
+              )}
+            />
+            <Pagination isNext={hasMoreQuestions} page={page} />
           </TabsContent>
+
           <TabsContent value="answers" className="flex w-full flex-col gap-6">
             List of Answers
           </TabsContent>

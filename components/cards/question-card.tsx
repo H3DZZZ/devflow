@@ -7,9 +7,11 @@ import { Questions, Tag } from "@/types/global";
 
 import TagCard from "./tag-card";
 import Metrics from "../metrics";
+import EditDeleteAction from "../user/edit-delete-action";
 
 interface Props {
   question: Questions;
+  showActionBtns?: boolean;
 }
 
 const QuestionCard = ({
@@ -24,11 +26,12 @@ const QuestionCard = ({
     answers,
     views,
   },
+  showActionBtns = false,
 }: Props) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
-      <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
-        <div>
+      <div className="flex flex-col-reverse items-center justify-between gap-5 sm:flex-row">
+        <div className="flex-1">
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
             {getTimeStamp(createdAt)}
           </span>
@@ -38,6 +41,8 @@ const QuestionCard = ({
             </h3>
           </Link>
         </div>
+
+        {showActionBtns && <EditDeleteAction type="Question" itemId={_id} />}
       </div>
 
       <div className="mt-3.5 flex w-full flex-wrap gap-2">

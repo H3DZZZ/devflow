@@ -30,7 +30,7 @@ const LeftSidebar = async () => {
               type="submit"
               className="base-medium w-fit !bg-transparent px-4 py-3"
             >
-              <LogOut className="size-5 text-black dark:text-white" />
+              <LogOut className="size-5 text-black" />
               <span className="text-dark300_light900 max-lg:hidden">
                 Logout
               </span>

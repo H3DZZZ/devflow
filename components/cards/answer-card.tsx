@@ -9,10 +9,12 @@ import { AnswerParams } from "@/types/global";
 import Preview from "../editor/preview";
 import UserAvatar from "../user-avatar";
 import Votes from "../votes/votes";
+import EditDeleteAction from "../user/edit-delete-action";
 
 interface Props extends AnswerParams {
   containerClasses?: string;
   showReadMore?: boolean;
+  showActionBtns?: boolean;
 }
 
 const AnswerCard = ({
@@ -25,14 +27,23 @@ const AnswerCard = ({
   question,
   containerClasses,
   showReadMore = false,
+  showActionBtns = false,
 }: Props) => {
   const hasVotedPromise = hasVoted({
     targetId: _id,
     targetType: "answer",
   });
   return (
-    <article className={cn("light-border border-b py-10", containerClasses)}>
+    <article
+      className={cn("relative light-border border-b py-10", containerClasses)}
+    >
       <span className="hash-span" id={`answer-${_id}`} />
+
+      {showActionBtns && (
+        <div className="background-light800 flex-center absolute -right-2 -top-5 size-9 rounded-full">
+          <EditDeleteAction type="Answer" itemId={_id} />
+        </div>
+      )}
 
       <div className="mb-5 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
         <div className="flex flex-1 items-start gap-1 sm:items-center">

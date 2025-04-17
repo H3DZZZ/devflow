@@ -32,6 +32,8 @@ import {
 import { dbConnect } from "../mongoose";
 import { Answer, Collection, Vote, Question, TagQuestion } from "@/database";
 import { revalidatePath } from "next/cache";
+import { createInteraction } from "./interaction.action";
+import { after } from "next/server";
 
 export async function createQuestion(
   params: CreateQuestionParams
@@ -86,6 +88,15 @@ export async function createQuestion(
       { $push: { tags: { $each: tagId } } },
       { session }
     );
+
+    after(async () => {
+      await createInteraction({
+        action: "post",
+        actionId: question._id.toString(),
+        actionTarget: "question",
+        authorId: userId as string,
+      });
+    });
 
     await session.commitTransaction();
 

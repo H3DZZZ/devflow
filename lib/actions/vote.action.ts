@@ -20,6 +20,8 @@ import {
   HasVotedSchema,
   UpdateVoteCountSchema,
 } from "../validations";
+import { after } from "next/server";
+import { createInteraction } from "./interaction.action";
 
 export async function UpdateVoteCount(
   params: UpdateVoteCountParams,
@@ -130,6 +132,22 @@ export async function createVote(
         session
       );
     }
+
+    const Model = targetType === "question" ? Question : Answer;
+
+    const contentDoc = await Model.findById(targetId).session(session);
+    if (!contentDoc) throw new Error("Content not found");
+
+    const contentAuthorId = contentDoc.author.toString();
+
+    after(async () => {
+      await createInteraction({
+        action: voteType,
+        actionId: targetId,
+        actionTarget: targetType,
+        authorId: contentAuthorId,
+      });
+    });
 
     await session.commitTransaction();
     revalidatePath(ROUTES.QUESTION(targetId));

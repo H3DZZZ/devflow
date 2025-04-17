@@ -152,12 +152,9 @@ export async function deleteAnswer(
   const { answerId } = validationResult.params!;
   const { user } = validationResult.session!;
 
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
   try {
     // implement logic here
-    const answer = await Answer.findById(answerId).session(session);
+    const answer = await Answer.findById(answerId);
     if (!answer) throw new Error("Answer not found");
 
     if (answer.author.toString() !== user?.id)
@@ -166,25 +163,20 @@ export async function deleteAnswer(
     await Question.findByIdAndUpdate(
       answer.question,
       { $inc: { answers: -1 } },
-      { session, new: true }
+      { new: true }
     );
 
     await Vote.deleteMany({
       actionId: answerId,
       actionType: "answer",
-    }).session(session);
+    });
 
-    await Answer.findByIdAndDelete(answerId).session(session);
-
-    await session.commitTransaction();
+    await Answer.findByIdAndDelete(answerId);
 
     revalidatePath(`/profile/${user?.id}`);
 
     return { success: true };
   } catch (error) {
-    await session.abortTransaction();
     return handleError(error) as ErrorResponse;
-  } finally {
-    session.endSession();
   }
 }
